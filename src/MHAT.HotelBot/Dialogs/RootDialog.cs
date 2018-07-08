@@ -23,7 +23,19 @@ namespace MHAT.HotelBot.Dialogs
 
             if(string.IsNullOrEmpty(name))
             {
-                // 還沒有姓名
+                context.PrivateConversationData.
+                    TryGetValue<bool>("IsAskName", out bool isAskName);
+
+                if(isAskName)
+                {
+                    // 詢問過名字，準備記錄
+                }
+                else
+                {
+                    context.PrivateConversationData.SetValue<bool>("IsAskName", true);
+
+                    await context.PostAsync("您的名字是？");
+                }
             }
             else
             {

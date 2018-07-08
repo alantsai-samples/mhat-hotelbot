@@ -28,7 +28,9 @@ namespace MHAT.HotelBot.Dialogs
 
                 if(isAskName)
                 {
-                    // 詢問過名字，準備記錄
+                    context.UserData.SetValue<string>("Name", activity.Text);
+
+                    await context.PostAsync($"{activity.Text} 您好，能夠幫助您什麽");
                 }
                 else
                 {

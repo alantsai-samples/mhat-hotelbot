@@ -19,11 +19,18 @@ namespace MHAT.HotelBot.Dialogs
         {
             var activity = await result as Activity;
 
-            // Calculate something for us to return
-            int length = (activity.Text ?? string.Empty).Length;
+            if (activity.Text == "Hello")
+            {
+                await context.PostAsync("World");
+            }
+            else
+            {
+                // Calculate something for us to return
+                int length = (activity.Text ?? string.Empty).Length;
 
-            // Return our reply to the user
-            await context.PostAsync($"You sent {activity.Text} which was {length} characters");
+                // Return our reply to the user
+                await context.PostAsync($"You sent {activity.Text} which was {length} characters");
+            }
 
             context.Wait(MessageReceivedAsync);
         }

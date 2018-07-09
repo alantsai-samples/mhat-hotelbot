@@ -41,8 +41,15 @@ namespace MHAT.HotelBot.Dialogs
             }
             else
             {
-                // 已經有姓名直接輸出 姓名 + 輸入内容
-                await context.PostAsync($"{name}: {activity.Text}");
+                if (activity.Text == "查飯店")
+                {
+                    // 返回飯店的圖片以及可以打開官網的按鈕
+                }
+                else
+                {
+                    // 已經有姓名直接輸出 姓名 + 輸入内容
+                    await context.PostAsync($"{name}: {activity.Text}");
+                }
             }
 
             context.Wait(MessageReceivedAsync);

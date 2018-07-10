@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AdaptiveCards;
+using MHAT.HotelBot.Models;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 
 namespace MHAT.HotelBot.Dialogs
 {
@@ -33,12 +36,14 @@ namespace MHAT.HotelBot.Dialogs
                     context.UserData.SetValue<string>("Name", activity.Text);
 
                     await context.PostAsync($"{activity.Text} 您好，能夠幫助您什麽");
+                    context.Wait(MessageReceivedAsync);
                 }
                 else
                 {
                     context.PrivateConversationData.SetValue<bool>("IsAskName", true);
 
                     await context.PostAsync("您的名字是？");
+                    context.Wait(MessageReceivedAsync);
                 }
             }
             else
@@ -69,6 +74,7 @@ namespace MHAT.HotelBot.Dialogs
 
                     // 送出
                     await context.PostAsync(returnMessage);
+                    context.Wait(MessageReceivedAsync);
                 }
                 else if(activity.Text == "訂房")
                 {
@@ -101,6 +107,7 @@ namespace MHAT.HotelBot.Dialogs
                     returnMessage.Attachments = new List<Attachment>() { receiptCard.ToAttachment() };
 
                     await context.PostAsync(returnMessage);
+                    context.Wait(MessageReceivedAsync);
                 }
                 else if(activity.Text == "查飯店v2")
                 {
@@ -156,13 +163,34 @@ namespace MHAT.HotelBot.Dialogs
                     });
 
                     await context.PostAsync(returnMessage);
+                    context.Wait(MessageReceivedAsync);
+                }
+                else if(activity.Text == "訂房v2")
+                {
+                    var reserveRoomForm = 
+                        FormDialog.FromForm(RoomReservation.BuildForm,
+                            FormOptions.PromptInStart);
+
+                    context.Call(reserveRoomForm, AfterReserveRoomAsync);
                 }
                 else
                 {
                     // 已經有姓名直接輸出 姓名 + 輸入内容
                     await context.PostAsync($"{name}: {activity.Text}");
+
+                    context.Wait(MessageReceivedAsync);
                 }
             }
+        }
+
+        private async Task AfterReserveRoomAsync(IDialogContext context
+            , IAwaitable<RoomReservation> result)
+        {
+            RoomReservation reservation = null;
+
+            reservation = await result;
+
+            await context.PostAsync($"得到的結果：{Environment.NewLine} {JsonConvert.SerializeObject(reservation)}");
 
             context.Wait(MessageReceivedAsync);
         }

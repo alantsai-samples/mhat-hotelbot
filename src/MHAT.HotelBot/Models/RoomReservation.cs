@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Bot.Builder.FormFlow;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,5 +20,11 @@ namespace MHAT.HotelBot.Models
         public int NumberOfNightToStay { get; set; }
         public int NumberOfOccupants { get; set; }
         public BedSizeOptions BedSize { get; set; }
+
+        public static IForm<RoomReservation> BuildForm()
+        {
+            return new FormBuilder<RoomReservation>()
+                .Build();
+        }
     }
 }

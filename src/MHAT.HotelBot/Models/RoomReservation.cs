@@ -16,6 +16,8 @@ namespace MHAT.HotelBot.Models
     [Serializable]
     public class RoomReservation
     {
+        [Describe("入住日期")]
+        [Prompt("請輸入您的 {&}")]
         public DateTime StartDate { get; set; }
         public int NumberOfNightToStay { get; set; }
         public int NumberOfOccupants { get; set; }

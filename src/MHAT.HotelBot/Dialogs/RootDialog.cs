@@ -188,11 +188,31 @@ namespace MHAT.HotelBot.Dialogs
         {
             RoomReservation reservation = null;
 
-            reservation = await result;
+            try
+            {
+                reservation = await result;
 
-            await context.PostAsync($"得到的結果：{Environment.NewLine} {JsonConvert.SerializeObject(reservation)}");
+                await context.PostAsync($"得到的結果：{Environment.NewLine} {JsonConvert.SerializeObject(reservation)}");
+            }
+            catch(FormCanceledException<RoomReservation> ex)
+            {
+                string reply;
 
-            context.Wait(MessageReceivedAsync);
+                if (ex.InnerException == null)
+                {
+                    reply = $"您在 {ex.Last} 的時候退出了 -- 如果有遇到任何問題請告訴我們";
+                }
+                else
+                {
+                    reply = "機器人暫時罷工了，請稍後嘗試";
+                }
+
+                await context.PostAsync(reply);
+            }
+            finally
+            {
+                context.Wait(MessageReceivedAsync);
+            }
         }
     }
 }

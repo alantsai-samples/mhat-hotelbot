@@ -24,6 +24,9 @@ namespace MHAT.HotelBot.Models
         public static IForm<RoomReservation> BuildForm()
         {
             return new FormBuilder<RoomReservation>()
+                .Message
+                ("歡迎使用訂房功能。接下來將會問您一系列問題好讓我們幫您找到最好的房間。" +
+                    $"{Environment.NewLine}有任何問題隨時打入Help將有幫助文字出現。")
                 .Build();
         }
     }

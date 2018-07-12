@@ -19,6 +19,7 @@ namespace MHAT.HotelBot.Models
         [Describe("入住日期")]
         [Prompt("請輸入您的 {&}")]
         public DateTime StartDate { get; set; }
+        [Numeric(1, 5)]
         public int NumberOfNightToStay { get; set; }
         public int NumberOfOccupants { get; set; }
         public BedSizeOptions BedSize { get; set; }

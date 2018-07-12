@@ -28,23 +28,7 @@ namespace MHAT.HotelBot.Dialogs
 
             if(string.IsNullOrEmpty(name))
             {
-                context.PrivateConversationData.
-                    TryGetValue<bool>("IsAskName", out bool isAskName);
-
-                if(isAskName)
-                {
-                    context.UserData.SetValue<string>("Name", activity.Text);
-
-                    await context.PostAsync($"{activity.Text} 您好，能夠幫助您什麽");
-                    context.Wait(MessageReceivedAsync);
-                }
-                else
-                {
-                    context.PrivateConversationData.SetValue<bool>("IsAskName", true);
-
-                    await context.PostAsync("您的名字是？");
-                    context.Wait(MessageReceivedAsync);
-                }
+                context.Call(new NameDialog(), GreetingAfterAsync);
             }
             else
             {
@@ -181,6 +165,18 @@ namespace MHAT.HotelBot.Dialogs
                     context.Wait(MessageReceivedAsync);
                 }
             }
+        }
+
+        private async Task GreetingAfterAsync(IDialogContext context,
+            IAwaitable<string> result)
+        {
+            var name = await result;
+
+            context.UserData.SetValue<string>("Name", name);
+
+            await context.PostAsync($"{name} 您好，能夠幫助您什麽");
+
+            context.Wait(MessageReceivedAsync);
         }
 
         private async Task AfterReserveRoomAsync(IDialogContext context

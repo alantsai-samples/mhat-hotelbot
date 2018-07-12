@@ -11,6 +11,8 @@ namespace MHAT.HotelBot.Dialogs
     [Serializable]
     public class NameDialog : IDialog<string>
     {
+        private int Attempt = 3;
+
         public async Task StartAsync(IDialogContext context)
         {
             await context.PostAsync("您的名字是？");
@@ -22,6 +24,22 @@ namespace MHAT.HotelBot.Dialogs
             (IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var message = await result;
+
+            if(string.IsNullOrEmpty(message.Text))
+            {
+                Attempt = Attempt - 1;
+
+                if (Attempt > 0)
+                {
+                    await context.PostAsync("請您輸入您的名字");
+
+                    context.Wait(MessageReceivedAsync);
+                }
+                else
+                {
+                    context.Fail(new TooManyAttemptsException("取不到名字"));
+                }
+            }
 
             context.Done(message.Text);
         }

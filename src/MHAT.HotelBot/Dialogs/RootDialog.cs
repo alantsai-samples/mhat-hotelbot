@@ -56,9 +56,9 @@ namespace MHAT.HotelBot.Dialogs
                         context.Wait(MessageReceivedAsync);
                     });
                 }
-                else if(activity.Text == "訂房v2")
+                else if(activity.Text == "訂房")
                 {
-                    
+                    context.Call(new ReserveRoomDialog(), ReserverRoomAfterAsync);
                 }
                 else
                 {
@@ -68,6 +68,24 @@ namespace MHAT.HotelBot.Dialogs
                     context.Wait(MessageReceivedAsync);
                 }
             }
+        }
+
+        private async Task ReserverRoomAfterAsync(IDialogContext context,
+           IAwaitable<RoomReservation> result)
+        {
+            var roomReserved = await result;
+
+            if (roomReserved != null)
+            {
+                await context.PostAsync($"您的訂單資訊：{Environment.NewLine}" +
+                    $"{JsonConvert.SerializeObject(roomReserved, Formatting.Indented)}");
+            }
+            else
+            {
+                await context.PostAsync($"訂單取得失敗");
+            }
+
+            context.Wait(MessageReceivedAsync);
         }
 
         private async Task GreetingAfterAsync(IDialogContext context,

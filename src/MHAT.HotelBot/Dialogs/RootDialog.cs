@@ -60,48 +60,7 @@ namespace MHAT.HotelBot.Dialogs
                 {
                     var returnMessage = activity.CreateReply();
 
-                    var card = new AdaptiveCard();
-                    var columSet = new ColumnSet();
-                    columSet.Columns.Add(new Column()
-                    {
-                        Size = "1",
-                        Items = new List<CardElement>()
-                         {
-                             new TextBlock()
-                             {
-                                  Text = "豪華大飯店",
-                                  Weight = TextWeight.Bolder,
-                                  Size = TextSize.ExtraLarge
-                             },
-                             new TextBlock()
-                             {
-                                 Text = "4.2 ★★★☆ (120) ",
-                                 IsSubtle = true,
-                                   Wrap = false
-                             }
-                         }
-                    });
-
-                    columSet.Columns.Add(new Column()
-                    {
-                        Size = "1",
-                        Items = new List<CardElement>()
-                        {
-                            new Image()
-                            {
-                                Url = "https://cdn.pixabay.com/photo/2016/02/10/13/32/hotel-1191709_1280.jpg",
-                                Size = ImageSize.Auto
-                            }
-                        }
-                    });
-
-                    card.Body.Add(columSet);
-
-                    card.Actions.Add(new OpenUrlAction()
-                    {
-                        Title = "官網",
-                        Url = "http://wwww.google.com"
-                    });
+                    
 
                     returnMessage.Attachments.Add(new Attachment()
                     {

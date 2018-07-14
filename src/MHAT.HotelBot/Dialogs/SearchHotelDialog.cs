@@ -9,7 +9,7 @@ using System.Web;
 namespace MHAT.HotelBot.Dialogs
 {
     [Serializable]
-    public class SearchHotelDialog : IDialog<HeroCard>
+    public class SearchHotelDialog : IDialog<List<Attachment>>
     {
         public Task StartAsync(IDialogContext context)
         {

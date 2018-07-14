@@ -157,6 +157,7 @@
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\GetReceiptDialog.cs" />
     <Compile Include="Dialogs\NameDialog.cs" />
+    <Compile Include="Dialogs\ReserveRoomDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Dialogs\SearchHotelDialog.cs" />
     <Compile Include="Global.asax.cs">

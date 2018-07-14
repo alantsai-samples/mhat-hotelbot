@@ -34,31 +34,14 @@ namespace MHAT.HotelBot.Dialogs
             {
                 if (activity.Text == "查飯店")
                 {
-                    // 返回飯店的圖片以及可以打開官網的按鈕
-
                     // 建立一個回復
-                    var returnMessage = activity.CreateReply();
+                    //var returnMessage = activity.CreateReply();
 
-                    // 建立一個HeroCard
-                    var herocard = new HeroCard()
-                    {
-                        Title = "xxx飯店",
-                        Text = "5星級高級大飯店",
-                        Images = new List<CardImage>()
-                        {
-                               new CardImage("https://cdn.pixabay.com/photo/2016/02/10/13/32/hotel-1191709_1280.jpg")
-                        },
-                        Buttons = new List<CardAction>()
-                        {
-                            new CardAction("openUrl", "官網", value: "http://www.google.com")
-                        }
-                    };
+                    //returnMessage.Attachments =new List<Attachment>() { herocard.ToAttachment() };
 
-                    returnMessage.Attachments =new List<Attachment>() { herocard.ToAttachment() };
-
-                    // 送出
-                    await context.PostAsync(returnMessage);
-                    context.Wait(MessageReceivedAsync);
+                    //// 送出
+                    //await context.PostAsync(returnMessage);
+                    //context.Wait(MessageReceivedAsync);
                 }
                 else if(activity.Text == "訂房")
                 {

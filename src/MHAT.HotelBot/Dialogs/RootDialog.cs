@@ -37,8 +37,8 @@ namespace MHAT.HotelBot.Dialogs
                     context.Call(new SearchHotelDialog(), async (ctx, r) =>
                     {
                         var returnMessage = activity.CreateReply();
-                        var heroCardResult = await r;
-                        returnMessage.Attachments = new List<Attachment>(){ heroCardResult.ToAttachment() };
+                        var attachments = await r;
+                        returnMessage.Attachments = attachments;
 
                         await context.PostAsync(returnMessage);
                         context.Wait(MessageReceivedAsync);
@@ -55,21 +55,6 @@ namespace MHAT.HotelBot.Dialogs
                         await context.PostAsync(returnMessage);
                         context.Wait(MessageReceivedAsync);
                     });
-                }
-                else if(activity.Text == "查飯店v2")
-                {
-                    var returnMessage = activity.CreateReply();
-
-                    
-
-                    returnMessage.Attachments.Add(new Attachment()
-                    {
-                        Content = card,
-                        ContentType = AdaptiveCard.ContentType
-                    });
-
-                    await context.PostAsync(returnMessage);
-                    context.Wait(MessageReceivedAsync);
                 }
                 else if(activity.Text == "訂房v2")
                 {

@@ -34,14 +34,15 @@ namespace MHAT.HotelBot.Dialogs
             {
                 if (activity.Text == "查飯店")
                 {
-                    // 建立一個回復
-                    //var returnMessage = activity.CreateReply();
+                    context.Call(new SearchHotelDialog(), async (ctx, r) =>
+                    {
+                        var returnMessage = activity.CreateReply();
+                        var heroCardResult = await r;
+                        returnMessage.Attachments = new List<Attachment>(){ heroCardResult.ToAttachment() };
 
-                    //returnMessage.Attachments =new List<Attachment>() { herocard.ToAttachment() };
-
-                    //// 送出
-                    //await context.PostAsync(returnMessage);
-                    //context.Wait(MessageReceivedAsync);
+                        await context.PostAsync(returnMessage);
+                        context.Wait(MessageReceivedAsync);
+                    });
                 }
                 else if(activity.Text == "訂房")
                 {

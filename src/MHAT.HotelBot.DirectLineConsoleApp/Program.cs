@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*code base on https://github.com/Microsoft/BotBuilder-Samples/tree/master/CSharp/core-DirectLine*/
 namespace MHAT.HotelBot.DirectLineConsoleApp
 {
     class Program

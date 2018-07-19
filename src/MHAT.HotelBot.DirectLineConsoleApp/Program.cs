@@ -1,4 +1,5 @@
 ﻿using Microsoft.Bot.Connector.DirectLine;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -76,10 +77,40 @@ namespace MHAT.HotelBot.DirectLineConsoleApp
                 {
                     Console.WriteLine(activity.Text);
 
+                    if (activity.Attachments != null)
+                    {
+                        foreach (Attachment attachment in activity.Attachments)
+                        {
+                            switch (attachment.ContentType)
+                            {
+                                case "application/vnd.microsoft.card.hero":
+                                    RenderHeroCard(attachment);
+                                    break;
+                            }
+                        }
+                    }
+
                     Console.Write("Command> ");
                 }
 
                 await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+            }
+        }
+
+        private static void RenderHeroCard(Attachment attachment)
+        {
+            const int Width = 70;
+            Func<string, string> contentLine = (content) => string.Format($"{{0, -{Width}}}", string.Format("{0," + ((Width + content.Length) / 2).ToString() + "}", content));
+
+            var heroCard = JsonConvert.DeserializeObject<HeroCard>(attachment.Content.ToString());
+
+            if (heroCard != null)
+            {
+                Console.WriteLine("/{0}", new string('*', Width + 1));
+                Console.WriteLine("*{0}*", contentLine(heroCard.Title));
+                Console.WriteLine("*{0}*", new string(' ', Width));
+                Console.WriteLine("*{0}*", contentLine(heroCard.Text));
+                Console.WriteLine("{0}/", new string('*', Width + 1));
             }
         }
     }

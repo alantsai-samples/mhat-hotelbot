@@ -1,7 +1,9 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using MHAT.HotelBot.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
@@ -18,7 +20,7 @@ namespace MHAT.HotelBot
         {
             if (activity.GetActivityType() == ActivityTypes.Message)
             {
-                await Conversation.SendAsync(activity, () => new Dialogs.RootDialog());
+                await Conversation.SendAsync(activity, MakeLuisDialog);
             }
             else
             {
@@ -26,6 +28,11 @@ namespace MHAT.HotelBot
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
+        }
+
+        private IDialog<object> MakeLuisDialog()
+        {
+            return Chain.From(() => new RootLuisDialog());
         }
 
         private Activity HandleSystemMessage(Activity message)

@@ -48,6 +48,25 @@ namespace MHAT.HotelBot.Dialogs
         public Task ReserveRoom
             (IDialogContext context, LuisResult result)
         {
+            // 取得unit的entity
+            var unitEntity = result.Entities
+                .FirstOrDefault(x => x.Type == "unit");
+
+            // 有表示會給預設住多久
+            if(unitEntity != null)
+            {
+                var numberEntity = result.Entities
+                    .FirstOrDefault(x => x.Type == "builtin.number");
+
+                var number = int.Parse(numberEntity.Entity);
+
+                // 如果單位是 天，表示實際住的晚上天數會減少1
+                if(unitEntity.Entity == "天")
+                {
+                    number = number - 1;
+                }
+            }
+
             context.Call(new ReserveRoomDialog(), ReserverRoomAfterAsync);
 
             return Task.CompletedTask;

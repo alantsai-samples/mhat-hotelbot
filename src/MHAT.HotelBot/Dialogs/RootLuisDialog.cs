@@ -41,5 +41,12 @@ namespace MHAT.HotelBot.Dialogs
 
             return Task.CompletedTask;
         }
+
+        [LuisIntent("ReserveRoom")]
+        public Task ReserveRoom
+            (IDialogContext context, LuisResult result)
+        {
+            return Task.CompletedTask;
+        }
     }
 }

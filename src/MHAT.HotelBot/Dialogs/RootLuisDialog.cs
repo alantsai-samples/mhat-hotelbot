@@ -48,6 +48,9 @@ namespace MHAT.HotelBot.Dialogs
         public Task ReserveRoom
             (IDialogContext context, LuisResult result)
         {
+
+            var roomReservation = new RoomReservation();
+
             // 取得unit的entity
             var unitEntity = result.Entities
                 .FirstOrDefault(x => x.Type == "unit");
@@ -65,9 +68,12 @@ namespace MHAT.HotelBot.Dialogs
                 {
                     number = number - 1;
                 }
+
+                roomReservation.NumberOfNightToStay = number;
             }
 
-            context.Call(new ReserveRoomDialog(), ReserverRoomAfterAsync);
+            context.Call(new ReserveRoomDialog(roomReservation),
+                ReserverRoomAfterAsync);
 
             return Task.CompletedTask;
         }

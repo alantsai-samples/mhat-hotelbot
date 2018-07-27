@@ -12,11 +12,26 @@ namespace MHAT.HotelBot.Dialogs
     [Serializable]
     public class ReserveRoomDialog : IDialog<RoomReservation>
     {
+        public ReserveRoomDialog(RoomReservation inRoomReservation)
+        {
+            RoomReservationState = inRoomReservation;
+        }
+
+        public ReserveRoomDialog()
+            :this(new RoomReservation())
+        {
+
+        }
+
+        public RoomReservation RoomReservationState { get; }
+
         public Task StartAsync(IDialogContext context)
         {
             var reserveRoomForm =
-                        FormDialog.FromForm(RoomReservation.BuildForm,
-                            FormOptions.PromptInStart);
+                new FormDialog<RoomReservation>
+                    (RoomReservationState,
+                        RoomReservation.BuildForm, 
+                        FormOptions.PromptInStart);
 
             context.Call(reserveRoomForm, AfterReserveRoomAsync);
 

@@ -1,7 +1,9 @@
-﻿using Microsoft.Bot.Builder.Dialogs;
+﻿using MHAT.HotelBot.Models;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 using Microsoft.Bot.Connector;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +48,45 @@ namespace MHAT.HotelBot.Dialogs
         public Task ReserveRoom
             (IDialogContext context, LuisResult result)
         {
+            context.Call(new ReserveRoomDialog(), ReserverRoomAfterAsync);
+
             return Task.CompletedTask;
+        }
+
+        private async Task ReserverRoomAfterAsync(IDialogContext context,
+           IAwaitable<RoomReservation> result)
+        {
+            var roomReserved = await result;
+
+            if (roomReserved != null)
+            {
+                await context.PostAsync($"您的訂單資訊：{Environment.NewLine}" +
+                    $"{JsonConvert.SerializeObject(roomReserved, Formatting.Indented)}");
+
+                PromptDialog.Confirm(context, ConfirmReservation, "請確認訂房資訊");
+            }
+            else
+            {
+                await context.PostAsync($"訂單取得失敗");
+
+                context.Wait(MessageReceived);
+            }
+        }
+
+        private async Task ConfirmReservation(IDialogContext context, IAwaitable<bool> result)
+        {
+            var confirmResult = await result;
+
+            if (confirmResult)
+            {
+                await context.PostAsync($"訂單完成。訂單號：{DateTime.Now.Ticks}");
+            }
+            else
+            {
+                await context.PostAsync("訂房取消");
+            }
+
+            context.Wait(MessageReceived);
         }
     }
 }

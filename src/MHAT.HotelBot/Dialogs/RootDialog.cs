@@ -56,10 +56,6 @@ namespace MHAT.HotelBot.Dialogs
                         context.Wait(MessageReceivedAsync);
                     });
                 }
-                else if(activity.Text == "訂房")
-                {
-                    context.Call(new ReserveRoomDialog(), ReserverRoomAfterAsync);
-                }
                 else
                 {
                     // 已經有姓名直接輸出 姓名 + 輸入内容
@@ -68,42 +64,6 @@ namespace MHAT.HotelBot.Dialogs
                     context.Wait(MessageReceivedAsync);
                 }
             }
-        }
-
-        private async Task ReserverRoomAfterAsync(IDialogContext context,
-           IAwaitable<RoomReservation> result)
-        {
-            var roomReserved = await result;
-
-            if (roomReserved != null)
-            {
-                await context.PostAsync($"您的訂單資訊：{Environment.NewLine}" +
-                    $"{JsonConvert.SerializeObject(roomReserved, Formatting.Indented)}");
-
-                PromptDialog.Confirm(context, ConfirmReservation, "請確認訂房資訊");
-            }
-            else
-            {
-                await context.PostAsync($"訂單取得失敗");
-
-                context.Wait(MessageReceivedAsync);
-            }
-        }
-
-        private async Task ConfirmReservation(IDialogContext context, IAwaitable<bool> result)
-        {
-            var confirmResult = await result;
-
-            if(confirmResult)
-            {
-                await context.PostAsync($"訂單完成。訂單號：{DateTime.Now.Ticks}");
-            }
-            else
-            {
-                await context.PostAsync("訂房取消");
-            }
-
-            context.Wait(MessageReceivedAsync);
         }
 
         private async Task GreetingAfterAsync(IDialogContext context,

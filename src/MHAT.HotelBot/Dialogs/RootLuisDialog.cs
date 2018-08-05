@@ -78,6 +78,34 @@ namespace MHAT.HotelBot.Dialogs
             return Task.CompletedTask;
         }
 
+        [LuisIntent("ReceiptRecognizer")]
+        public Task ReceiptRecognizer
+            (IDialogContext context, LuisResult result)
+        {
+            context.Call(new ReceiptRecognizerDialog(),
+                ReceiptRecognizerAfterAsync);
+
+            return Task.CompletedTask;
+        }
+
+        private async Task ReceiptRecognizerAfterAsync
+            (IDialogContext context,
+                IAwaitable<string> result)
+        {
+            var finalResult = await result;
+
+            if(string.IsNullOrEmpty(finalResult) == false)
+            {
+                await context.PostAsync($"您的發票號碼是：{finalResult}");
+            }
+            else
+            {
+                await context.PostAsync("識別發票號碼失敗");
+            }
+
+            context.Wait(MessageReceived);
+        }
+
         private async Task ReserverRoomAfterAsync(IDialogContext context,
            IAwaitable<RoomReservation> result)
         {

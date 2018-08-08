@@ -6,6 +6,7 @@ using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -138,6 +139,27 @@ namespace MHAT.HotelBot.Dialogs
             {
                 await context.PostAsync("訂房取消");
             }
+
+            context.Wait(MessageReceived);
+        }
+
+        [LuisIntent("CheckDrinkPrice")]
+        public Task CheckDrinkPrice
+            (IDialogContext context, LuisResult result)
+        {
+            context.Call(new DrinkPriceCheckerDialog(),
+                CheckDrinkPriceAfterAsync);
+
+            return Task.CompletedTask;
+        }
+
+        private async Task CheckDrinkPriceAfterAsync
+            (IDialogContext context
+                , IAwaitable<string> result)
+        {
+            var finalResult = await result;
+
+            await context.PostAsync(finalResult);
 
             context.Wait(MessageReceived);
         }

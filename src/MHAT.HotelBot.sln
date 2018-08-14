@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHAT.HotelBot", "MHAT.Hotel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHAT.HotelBot.DirectLineConsoleApp", "MHAT.HotelBot.DirectLineConsoleApp\MHAT.HotelBot.DirectLineConsoleApp.csproj", "{8149FB6B-AFC4-45C8-AF1B-59B73DDA39BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MHAT.TranslatorSpeechQuickStart", "MHAT.TranslatorSpeechQuickStart\MHAT.TranslatorSpeechQuickStart.csproj", "{26DB6B25-18C2-44C8-A593-D1E93A773460}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8149FB6B-AFC4-45C8-AF1B-59B73DDA39BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8149FB6B-AFC4-45C8-AF1B-59B73DDA39BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8149FB6B-AFC4-45C8-AF1B-59B73DDA39BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26DB6B25-18C2-44C8-A593-D1E93A773460}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26DB6B25-18C2-44C8-A593-D1E93A773460}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26DB6B25-18C2-44C8-A593-D1E93A773460}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26DB6B25-18C2-44C8-A593-D1E93A773460}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

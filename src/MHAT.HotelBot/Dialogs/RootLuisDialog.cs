@@ -107,6 +107,27 @@ namespace MHAT.HotelBot.Dialogs
             context.Wait(MessageReceived);
         }
 
+        [LuisIntent("SpeechRecognizer")]
+        public Task SpeechRecognizer
+            (IDialogContext context, LuisResult result)
+        {
+            context.Call(new SpeechTranslationDialog(),
+                SpeechRecognizerAfterAsync);
+
+            return Task.CompletedTask;
+        }
+
+        private async Task SpeechRecognizerAfterAsync
+            (IDialogContext context, IAwaitable<List<ResponseModel>> result)
+        {
+            var finalResult = await result;
+
+            await context.PostAsync($"識別：{finalResult.First().recognition}");
+            await context.PostAsync($"翻譯：{finalResult.First().translation}");
+
+            context.Wait(MessageReceived);
+        }
+
         private async Task ReserverRoomAfterAsync(IDialogContext context,
            IAwaitable<RoomReservation> result)
         {

@@ -184,5 +184,20 @@ namespace MHAT.HotelBot.Dialogs
 
             context.Wait(MessageReceived);
         }
+
+        [LuisIntent("QnA")]
+        public Task QnA
+           (IDialogContext context, LuisResult result)
+        {
+            context.Call(new BasicQnAMakerDialog(),
+                (ctx, res) =>
+                {
+                    ctx.Wait(MessageReceived);
+
+                    return Task.CompletedTask;
+                });
+
+            return Task.CompletedTask;
+        }
     }
 }

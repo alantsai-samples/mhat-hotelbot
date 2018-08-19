@@ -159,6 +159,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
+    <Compile Include="Dialogs\BasicQnAMakerDialog.cs" />
     <Compile Include="Dialogs\DrinkPriceCheckerDialog.cs" />
     <Compile Include="Dialogs\GetReceiptDialog.cs" />
     <Compile Include="Dialogs\NameDialog.cs" />
